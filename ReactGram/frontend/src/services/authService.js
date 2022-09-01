@@ -5,15 +5,13 @@ const register = async (data) => {
   const config = requestConfig("POST", data);
 
   try {
-    const res = await fetch(api + "/users/register", config)
-      .then((res) => res.json())
-      .catch((err) => err);
+    const res = await fetch(api + "/users/register", config);
+
+    console.log(res);
 
     if (res) {
       localStorage.setItem("user", JSON.stringify(res));
     }
-
-    console.log(res)
   } catch (error) {
     console.log(error);
   }
@@ -29,16 +27,16 @@ const login = async (data) => {
   const config = requestConfig("POST", data);
 
   try {
-    const res = await fetch(api + "/users/login", config)
-      .then((res) => res.json())
+    const res = await fetch(api + "/users/login", config); // foi removido o then, não havia necessidade se o metodo ja é assincrono
 
-    if (res) {
-      localStorage.setItem("user", JSON.stringify(res));
+    if (res.ok) {
+      //salvando no localstorage o valor correto
+      localStorage.setItem("user", JSON.stringify(await res.json()));
     }
-
-    console.log(res)
+    // a chamada do metodo precisava ser assim, pq senão vc não iria decodificar a resposta por estar vindo em um stream
+    return res.json(); // o metodo de login precisa retornar alguma coisa para o slicer, só assim ele mostra o erro
   } catch (error) {
-    console.log(error);
+    console.log("erro", error);
   }
 };
 
