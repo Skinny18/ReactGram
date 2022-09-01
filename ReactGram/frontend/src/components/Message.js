@@ -2,7 +2,8 @@ import "./Message.css"
 
 const Message = ({msg, type}) => {
   return (
-    <div className={`message ${type}`}>
+    /* foi mudado o nome atributo de classname --> className, tava dando erro */
+    <div className={`message ${type}`}> 
         <p>{msg}</p>
     </div>
   )
