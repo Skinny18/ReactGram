@@ -28,8 +28,9 @@ const login = async (data) => {
 
   try {
     const res = await fetch(api + "/users/login", config);
+
     if (res.ok) {
-      localStorage.setItem("user", await res.json());
+      localStorage.setItem("user", JSON.stringify(await res.json()));
     }
     return res.json();
   } catch (error) {
